@@ -31,7 +31,7 @@ jobs:
           RUN echo "hello world"
           EOF
 
-      - run: sudo apt-get install buildah=1.19.8
+      - run: sudo apt-get install buildah
       # # Workaround to fix https://github.com/containers/buildah/issues/3120
       # - run: |
       #     sudo apt-get install fuse-overlayfs
