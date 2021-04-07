@@ -39,7 +39,7 @@ jobs:
       #     mkdir -vp ~/.config/containers
       #     printf "[storage.options]\nmount_program=\"/usr/bin/fuse-overlayfs\"" > ~/.config/containers/storage.conf
       - run:
-          buildah bud -f Dockerfile --storage-driver=fuse-overlayfs ${{ env.IMAGE_NAME }}
+          buildah bud -f Dockerfile --storage-driver=fuse-overlayfs -t ${{ env.IMAGE_NAME }}
       # # Build image using Buildah action
       # - name: Build Image
       #   id: build_image
