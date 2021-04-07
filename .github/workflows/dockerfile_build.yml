@@ -33,7 +33,7 @@ jobs:
 
       - run: |
           echo $HOME
-          cd $HOME/.config/containers/storage.conf
+          cd $HOME/.config/containers/storage.conf || true
           echo $HOME/.config/containers/storage.conf || true
           echo /etc/containers/storage.conf || true
       # Workaround to fix https://github.com/containers/buildah/issues/3120
