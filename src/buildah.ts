@@ -158,7 +158,7 @@ export class BuildahCli implements Buildah {
             },
         };
 
-        finalExecOptions.env = { STORAGE_OPTS: "overlay.mount_program=/usr/bin/fuse-overlayfs" };
+        // finalExecOptions.env = { STORAGE_OPTS: "overlay.mount_program=/usr/bin/fuse-overlayfs" };
 
         const exitCode = await exec.exec(this.executable, args, finalExecOptions);
 
