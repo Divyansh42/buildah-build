@@ -34,7 +34,7 @@ jobs:
       - run: |
           echo $HOME
           tree $HOME/.config/containers || true
-          echo $HOME/.config/containers/storage.conf || true
+          cat $HOME/.config/containers/storage.conf || true
           tree /etc/containers/ || true
       # Workaround to fix https://github.com/containers/buildah/issues/3120
       - run: |
