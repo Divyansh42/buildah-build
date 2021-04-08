@@ -1,6 +1,8 @@
 import * as core from "@actions/core";
 import * as io from "@actions/io";
 import * as path from "path";
+import * as os from "os";
+import { checkStorageDriver, restoreFile } from "./utils";
 import { Inputs, Outputs } from "./generated/inputs-outputs";
 import { BuildahCli, BuildahConfigSettings } from "./buildah";
 
@@ -34,6 +36,13 @@ export async function run(): Promise<void> {
     // remove white spaces (if any) in archs input
     archs = archs.replace(/\s+/g, "");
 
+    // To solve https://github.com/redhat-actions/buildah-build/issues/45
+    const homedir = os.homedir();
+    const storageFilePaths: string[] = [ path.join(homedir, ".config/containers/storage.conf"),
+        "/etc/containers/storage.conf" ];
+    // If overlay is used as storage driver then set "fuse-overlayfs as mount program"
+    checkStorageDriver(storageFilePaths);
+
     if (dockerFiles.length !== 0) {
         await doBuildUsingDockerFiles(cli, newImage, workspace, dockerFiles, useOCI, archs);
     }
@@ -44,6 +53,11 @@ export async function run(): Promise<void> {
     if (tagsList.length > 1) {
         await cli.tag(image, tagsList);
     }
+
+    // Restore if original file is changed
+    core.debug("Restoring the original file to avoid any breaking change for future jobs");
+    restoreFile(storageFilePaths[0]);
+
     core.setOutput(Outputs.IMAGE, image);
     core.setOutput(Outputs.TAGS, tags);
 }
