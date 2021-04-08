@@ -50,8 +50,8 @@ jobs:
           tags: 'latest ${{ github.sha }}'
           dockerfiles: |
             ./Dockerfile
-        env:
-          STORAGE_OPTS: overlay.mount_program=/usr/bin/fuse-overlayfs
+        # env:
+        #   STORAGE_OPTS: overlay.mount_program=/usr/bin/fuse-overlayfs
 
       - name: Echo Outputs
         run: |
