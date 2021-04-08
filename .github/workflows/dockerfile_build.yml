@@ -38,20 +38,20 @@ jobs:
       # - run: |
       #     mkdir -vp ~/.config/containers
       #     printf "[storage.options]\nmount_program=\"/usr/bin/fuse-overlayfs\"" > ~/.config/containers/storage.conf
-      - run:
-          buildah bud -f Dockerfile --storage-driver=fuse-overlayfs --log-level debug -t ${{ env.IMAGE_NAME }}
-      # # Build image using Buildah action
-      # - name: Build Image
-      #   id: build_image
-      #   uses: ./buildah-build/
-      #   with:
-      #     image: ${{ env.IMAGE_NAME }}
-      #     layers: false
-      #     tags: 'latest ${{ github.sha }}'
-      #     dockerfiles: |
-      #       ./Dockerfile
-      #   env:
-      #     STORAGE_DRIVER: fuse-overlayfs
+      # - run:
+      #     buildah bud -f Dockerfile --storage-driver=fuse-overlayfs --log-level debug -t ${{ env.IMAGE_NAME }}
+      # Build image using Buildah action
+      - name: Build Image
+        id: build_image
+        uses: ./buildah-build/
+        with:
+          image: ${{ env.IMAGE_NAME }}
+          layers: false
+          tags: 'latest ${{ github.sha }}'
+          dockerfiles: |
+            ./Dockerfile
+        env:
+          STORAGE_OPTS: overlay.mount_program=/usr/bin/fuse-overlayfs
 
       - name: Echo Outputs
         run: |
